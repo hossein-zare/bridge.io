@@ -62,7 +62,7 @@ class Rooms {
             }
         });
 
-        // Flattern the array and remove duplicates
+        // Flatten the array and remove duplicates
         members = [...new Set(members.flat())];
 
         return members;
