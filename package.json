@@ -18,8 +18,9 @@
   },
   "dependencies": {
     "ws": "^7.4.0",
-    "cryptojs": "^2.5.3",
+    "crypto-js": "^4.0.0",
     "cros": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "bridge.io-client": "^1.0.0"
   }
 }
