@@ -116,9 +116,6 @@ socket.on('error', () => {
 // Casting to an specific client
 io.to(id: string).cast(event: string, data: string|json);
 
-// Casting with acknowledgement (Client Side)
-io.to(id: string).cast(event: string, data: string|json, callback: () => void);
-
 // Broadcasting to everyone
 io.broadcast(event: string, data: string|json);
 
@@ -130,6 +127,9 @@ io.room(room: string|array);
 ```javascript
 // Casting to the client
 socket.cast(event: string, data: string|json);
+
+// Casting with acknowledgement (Client-Side)
+socket.cast(event: string, data: string|json, callback: () => void);
 
 // Broadcasting to everyone except the caster
 socket.broadcast(event: string, data: string|json);
