@@ -59,7 +59,7 @@ io.watch('connection', (socket, request, data) => {
 });
 
 // Upgrade
-server.on('upgrade', async (request, socket, head) => {
+server.on('upgrade', (request, socket, head) => {
     io.upgrade(request, socket, head, {
         isOk: true,
     });
