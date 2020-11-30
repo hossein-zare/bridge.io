@@ -118,6 +118,36 @@ io.broadcast(event: string, data: string|json);
 io.room(room: string|array);
 ```
 
+## Authentication
+### Server-Side
+```javascript
+server.on('upgrade', async (request, socket, head) => {
+    // 1. Get the token from query params
+    const token = url.parse(request.url, true).query.token;
+
+    // 2. Get the token from headers (Secure)
+    const token = request.headers['sec-websocket-protocol'];
+
+    // Authentication (Implement your own authentication function)
+    const auth = await authentication(token);
+
+    io.upgrade(request, socket, head, {
+        isOk: auth.status,
+        data: auth.data
+    });
+});
+```
+
+### Client-Side
+```javascript
+const token = 'myToken';
+
+// Avoid passing the token as a query parameter for security issues
+const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, {
+    protocol: token
+});
+```
+
 ### Socket
 ```javascript
 // Casting to the client
@@ -147,34 +177,4 @@ const id = socket.id;
 
 // Client rooms
 const rooms = socket.rooms;
-```
-
-## Authentication
-### Server-Side
-```javascript
-server.on('upgrade', async (request, socket, head) => {
-    // 1. Get the token from query params
-    const token = url.parse(request.url, true).query.token;
-
-    // 2. Get the token from headers (Secure)
-    const token = request.headers['sec-websocket-protocol'];
-
-    // Authentication (Implement your own authentication function)
-    const auth = await authentication(token);
-
-    io.upgrade(request, socket, head, {
-        isOk: auth.status,
-        data: auth.data
-    });
-});
-```
-
-### Client-Side
-```javascript
-const token = 'myToken';
-
-// Avoid passing the token as a query parameter for security issues
-const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, {
-    protocol: token
-});
 ```
