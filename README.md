@@ -73,7 +73,7 @@ server.listen(3000, () => {
 
 ### Client-Side
 ```javascript
-const BridgeIO = require('bridge.io-client);
+const BridgeIO = require('bridge.io-client');
 
 const socket = new BridgeIO(`wss://localhost:3000`);
 
