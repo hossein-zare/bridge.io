@@ -37,10 +37,6 @@ const express = require('express');
 const app = express();
 const server = https.createServer(credentials, app);
 
-// Cors
-const cors = require('cors');
-app.use(cors());
-
 io.watch('connection', (socket, request, data) => {
     console.log('A user connected');
 
