@@ -130,7 +130,8 @@ server.on('upgrade', async (request, socket, head) => {
 const token = 'myToken';
 
 // Avoid passing the token as a query parameter for security issues
-const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, {
+// SSL REQUIRED for production environment
+const socket = new BridgeIO(`ws://localhost:3000/?token=${token}`, {
     protocol: token
 });
 ```
