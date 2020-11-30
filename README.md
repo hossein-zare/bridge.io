@@ -34,7 +34,8 @@ io.watch('connection', (socket, request, data) => {
 
     // New message
     socket.watch('message', (message, callback) => {
-        socket.broadcast('message', 'welcome!');
+        // Send the message to everyone except the sender
+        socket.broadcast('message', message);
 
         // Acknowledgement
         callback('success');
