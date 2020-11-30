@@ -60,6 +60,7 @@ server.listen(3000, () => {
 ```
 
 ### Client-Side
+https://github.com/hossein-zare/bridge.io-client
 ```javascript
 const BridgeIO = require('bridge.io-client');
 
