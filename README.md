@@ -135,7 +135,7 @@ socket.cast(event: string, data: string|json, callback: () => void);
 socket.broadcast(event: string, data: string|json);
 
 // Broadcasting to all clients in the specified rooms except the caster
-socket.room(room: string|array);
+socket.room(room: string|array).cast(event: string, data: string|json);
 
 // Joining a room
 socket.join(room: string);
