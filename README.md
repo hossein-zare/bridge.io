@@ -60,11 +60,14 @@ io.watch('connection', (socket, request, data) => {
 
 // Upgrade
 server.on('upgrade', async (request, socket, head) => {
-    // Query params
-    const query = url.parse(request.url, true).query;
+    // 1. Query params
+    const token = url.parse(request.url, true).query.token;
+
+    // 2. Get the token from headers (Secure)
+    const token = request.headers['sec-websocket-protocol'];
 
     // Authentication (Implement your own authentication function)
-    const auth = await authentication(query.token);
+    const auth = await authentication(token);
 
     io.upgrade(request, socket, head, {
         isOk: auth.status,
@@ -82,7 +85,7 @@ server.listen(3000, () => {
 ```javascript
 const BridgeIO = require('bridge.io-client);
 
-const socket = new BridgeIO(`ws://localhost:3000?name=${name}`, 'asdasd');
+const socket = new BridgeIO(`wss://localhost:3000/?token=myToken`, 'myToken');
 
 // Connect to the server
 socket.connect();
