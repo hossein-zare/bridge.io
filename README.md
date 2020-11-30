@@ -19,8 +19,6 @@ npm i bridge.io
 ## Basic Usage
 ### Server-Side
 ```javascript
-const url = require('url');
-
 // Bridge.IO
 const BridgeIO = require('bridge.io');
 const io = new BridgeIO({ noServer: true });
@@ -108,6 +106,8 @@ socket.on('error', () => {
 ## Authentication
 ### Server-Side
 ```javascript
+const url = require('url');
+
 server.on('upgrade', async (request, socket, head) => {
     // 1. Get the token from query params
     const token = url.parse(request.url, true).query.token;
