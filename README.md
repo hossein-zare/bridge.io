@@ -25,17 +25,11 @@ const url = require('url');
 const BridgeIO = require('bridge.io');
 const io = new BridgeIO({ noServer: true });
 
-// SSL
-const fs = require('fs');
-const privateKey = fs.readFileSync('ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('ssl/cert.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-
 // Create server
-const https = require('https');
+const http = require('http');
 const express = require('express');
 const app = express();
-const server = https.createServer(credentials, app);
+const server = http.createServer(app);
 
 io.watch('connection', (socket, request, data) => {
     console.log('A user connected');
@@ -71,7 +65,7 @@ server.listen(3000, () => {
 ```javascript
 const BridgeIO = require('bridge.io-client');
 
-const socket = new BridgeIO(`wss://localhost:3000`);
+const socket = new BridgeIO(`ws://localhost:3000`);
 
 // Connect to the server
 socket.connect();
