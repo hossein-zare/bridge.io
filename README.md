@@ -65,7 +65,12 @@ server.listen(3000, () => {
 ```javascript
 const BridgeIO = require('bridge.io-client');
 
-const socket = new BridgeIO(`ws://localhost:3000`);
+// The second argument is optional
+const socket = new BridgeIO(`ws://localhost:3000`, {
+    attempts: 2,
+    timeout: 2000,
+    protocol: []
+});
 
 // Connect to the server
 socket.connect();
@@ -168,6 +173,8 @@ server.on('upgrade', async (request, socket, head) => {
 ```javascript
 const token = 'myToken';
 
-// Avoid passing the token as a query string for security issues
-const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, token);
+// Avoid passing the token as a query parameter for security issues
+const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, {
+    protocol: token
+});
 ```
