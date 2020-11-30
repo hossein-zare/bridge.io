@@ -140,10 +140,10 @@ const socket = new BridgeIO(`ws://localhost:3000/?token=${token}`, {
 ### IO
 ```javascript
 // Casting to an specific client
-io.to(id: string).cast(event: string, data: string|json);
+io.to(id: string).cast(event: string, data: string|object);
 
 // Broadcasting to everyone
-io.broadcast(event: string, data: string|json);
+io.broadcast(event: string, data: string|object);
 
 // Broadcasting to all clients in the specified rooms
 io.room(room: string|array);
@@ -152,16 +152,16 @@ io.room(room: string|array);
 ### Socket
 ```javascript
 // Casting to the client
-socket.cast(event: string, data: string|json);
+socket.cast(event: string, data: string|object);
 
 // Casting with acknowledgement (Client-Side)
-socket.cast(event: string, data: string|json, callback: () => void);
+socket.cast(event: string, data: string|object, callback: () => void);
 
 // Broadcasting to everyone except the caster
-socket.broadcast(event: string, data: string|json);
+socket.broadcast(event: string, data: string|object);
 
 // Broadcasting to all clients in the specified rooms except the caster
-socket.room(room: string|array).cast(event: string, data: string|json);
+socket.room(room: string|array).cast(event: string, data: string|object);
 
 // Joining a room
 socket.join(room: string);
