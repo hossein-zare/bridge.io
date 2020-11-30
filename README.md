@@ -105,19 +105,6 @@ socket.on('error', () => {
 });
 ```
 
-## Methods & Properties
-### IO
-```javascript
-// Casting to an specific client
-io.to(id: string).cast(event: string, data: string|json);
-
-// Broadcasting to everyone
-io.broadcast(event: string, data: string|json);
-
-// Broadcasting to all clients in the specified rooms
-io.room(room: string|array);
-```
-
 ## Authentication
 ### Server-Side
 ```javascript
@@ -146,6 +133,19 @@ const token = 'myToken';
 const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, {
     protocol: token
 });
+```
+
+## Methods & Properties
+### IO
+```javascript
+// Casting to an specific client
+io.to(id: string).cast(event: string, data: string|json);
+
+// Broadcasting to everyone
+io.broadcast(event: string, data: string|json);
+
+// Broadcasting to all clients in the specified rooms
+io.room(room: string|array);
 ```
 
 ### Socket
