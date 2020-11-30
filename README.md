@@ -13,26 +13,26 @@ Bridge.IO is a realtime websocket framework for NodeJS.
 
 ## Basic Usage
 ```javascript
-const express = require('express');
-const https = require('https');
-const app = express();
-const cors = require('cors');
 const url = require('url');
-const fs = require('fs');
 
 // Bridge.IO
 const BridgeIO = require('bridge.io');
 const io = new BridgeIO({ noServer: true });
 
 // SSL
+const fs = require('fs');
 const privateKey = fs.readFileSync('ssl/key.pem', 'utf8');
 const certificate = fs.readFileSync('ssl/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 // Create server
+const https = require('https');
+const express = require('express');
+const app = express();
 const server = https.createServer(credentials, app);
 
 // Cors
+const cors = require('cors');
 app.use(cors());
 
 io.watch('connection', (socket, request, data) => {
@@ -65,8 +65,51 @@ server.on('upgrade', async (request, socket, head) => {
     });
 });
 
-// Start our server
+// Start the server
 server.listen(3000, () => {
     console.log(`Server started on port ${server.address().port} :)`);
 });
+```
+
+## Methods & Properties
+### IO
+```javascript
+// Casting to an specific client
+io.to(id: string).cast(event: string, data: string|json);
+
+// Casting with acknowledgement (Client Side)
+io.to(id: string).cast(event: string, data: string|json, callback: () => void);
+
+// Broadcasting to everyone
+io.broadcast(event: string, data: string|json);
+
+// Broadcasting to all clients in the specified rooms
+io.room(room: string|array);
+```
+
+### Socket
+```javascript
+// Casting to the client
+socket.cast(event: string, data: string|json);
+
+// Broadcasting to everyone except the caster
+socket.broadcast(event: string, data: string|json);
+
+// Broadcasting to all clients in the specified rooms except the caster
+socket.room(room: string|array);
+
+// Joining a room
+socket.join(room: string);
+
+// Leaving a room
+socket.leave(room: string);
+
+// Disconnecting
+socket.close(code: Number, reason: string);
+
+// Client ID
+const id = socket.id;
+
+// Client rooms
+const rooms = socket.rooms;
 ```
