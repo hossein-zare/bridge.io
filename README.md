@@ -60,18 +60,8 @@ io.watch('connection', (socket, request, data) => {
 
 // Upgrade
 server.on('upgrade', async (request, socket, head) => {
-    // 1. Query params
-    const token = url.parse(request.url, true).query.token;
-
-    // 2. Get the token from headers (Secure)
-    const token = request.headers['sec-websocket-protocol'];
-
-    // Authentication (Implement your own authentication function)
-    const auth = await authentication(token);
-
     io.upgrade(request, socket, head, {
-        isOk: auth.status,
-        data: auth.data
+        isOk: true,
     });
 });
 
@@ -85,7 +75,7 @@ server.listen(3000, () => {
 ```javascript
 const BridgeIO = require('bridge.io-client);
 
-const socket = new BridgeIO(`wss://localhost:3000/?token=myToken`, 'myToken');
+const socket = new BridgeIO(`wss://localhost:3000`);
 
 // Connect to the server
 socket.connect();
@@ -162,4 +152,32 @@ const id = socket.id;
 
 // Client rooms
 const rooms = socket.rooms;
+```
+
+## Authentication
+### Server-Side
+```javascript
+server.on('upgrade', async (request, socket, head) => {
+    // 1. Get the token from query params
+    const token = url.parse(request.url, true).query.token;
+
+    // 2. Get the token from headers (Secure)
+    const token = request.headers['sec-websocket-protocol'];
+
+    // Authentication (Implement your own authentication function)
+    const auth = await authentication(token);
+
+    io.upgrade(request, socket, head, {
+        isOk: auth.status,
+        data: auth.data
+    });
+});
+```
+
+### Client-Side
+```javascript
+const token = 'myToken';
+
+// Avoid passing the token as a query string for security issues
+const socket = new BridgeIO(`wss://localhost:3000/?token=${token}`, token);
 ```
