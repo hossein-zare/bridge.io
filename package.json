@@ -1,6 +1,6 @@
 {
   "name": "bridge.io",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeJS Realtime WebSocket Framework",
   "main": "index.js",
   "type": "commonjs",
@@ -8,7 +8,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "bridge", "io", "socket", "websocket", "real-time", "full-duplex", "bidirectional", "nodejs", "tcp"
+    "bridge",
+    "io",
+    "socket",
+    "websocket",
+    "real-time",
+    "full-duplex",
+    "bidirectional",
+    "nodejs",
+    "tcp"
   ],
   "author": "Hossein Zare",
   "license": "MIT",
