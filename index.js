@@ -10,7 +10,6 @@ class BridgeIO {
         this.server = new WebSocket.Server(...args);
         this.events = {
             connection: () => {},
-            close: () => {},
             authentication: null
         };
 
@@ -92,7 +91,8 @@ class BridgeIO {
 
             // Close
             ws.on('close', (e) => {
-                ws.events.close(e);
+                if (ws.events.hasOwnProperty('close'))
+                    ws.events.close(e);
 
                 // Delete client from all rooms
                 ws.rooms.forEach(room => {
@@ -197,7 +197,7 @@ class BridgeIO {
      * Get clients.
      * @returns {object}
      */
-    clients() {
+    get clients() {
         return Clients;
     }
 }
