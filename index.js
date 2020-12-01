@@ -5,12 +5,15 @@ const Caster = require('./src/caster');
 const Crypto = require('./src/crypto');
 
 class BridgeIO {
-    constructor(...args) {
+    constructor(httpServer, ...args) {
+        this.httpServer = httpServer;
         this.server = new WebSocket.Server(...args);
         this.events = {
             connection: () => {},
+            authentication: null
         };
 
+        this.upgrade();
         this.defaultEvents();
     }
 
@@ -27,8 +30,8 @@ class BridgeIO {
      */
     defaultEvents() {
         this.server.on('connection', (ws, ...args) => {
-            // Check if the connection is authorized
-            if (! ws.handshake.isOk) {
+            // Check if the connection is authenticated
+            if (! ws.authenticated) {
                 ws.close(4000, "HTTP Authentication failed");
                 return;
             }
@@ -127,17 +130,27 @@ class BridgeIO {
     }
 
     /**
-     * Upgrade the request.
-     * @param {any} request 
-     * @param {any} socket 
-     * @param {any} head 
-     * @param {any} handshake 
+     * Authentication method.
      */
-    upgrade(request, socket, head, handshake) {
-        this.server.handleUpgrade(request, socket, head, (ws) => {
-            ws.handshake = handshake;
+    authentication(callback) {
+        this.events.authentication = callback;
+    }
 
-            this.server.emit('connection', ws, request, handshake.data);
+    /**
+     * Upgrade the request.
+     */
+    upgrade() {
+        const instance = this;
+        this.httpServer.on('upgrade', (request, socket, head) => {
+            this.server.handleUpgrade(request, socket, head, (ws) => {
+
+                ws.authenticated = true;
+                if (this.events.authentication !== null) {
+                    ws.authenticated = this.events.authentication(instance, ws, request, socket);
+                }
+    
+                this.server.emit('connection', ws, request);
+            });
         });
     }
 
@@ -178,6 +191,16 @@ class BridgeIO {
             cast: (event, data) => Caster.multicast(event, data, members)
         };
     }
+
+    /**
+     * Get clients.
+     * @returns {object}
+     */
+    clients() {
+        return Clients;
+    }
 }
 
-module.exports = BridgeIO;
+module.exports = (httpServer, opt) => {
+    return new BridgeIO(httpServer, opt);
+};

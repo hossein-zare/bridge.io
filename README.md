@@ -1,4 +1,4 @@
-# Bridge.IO
+# Bridge.IO 2.x
 Bridge.IO is a realtime websocket framework for NodeJS.
 
 ## Features
@@ -19,17 +19,16 @@ npm i bridge.io
 ## Basic Usage
 ### Server-Side
 ```javascript
-// Bridge.IO
-const BridgeIO = require('bridge.io');
-const io = new BridgeIO({ noServer: true });
-
 // Create server
 const http = require('http');
 const express = require('express');
 const app = express();
 const server = http.createServer(app);
 
-io.watch('connection', (socket, request, data) => {
+// Bridge.IO
+const io = require('bridge.io')(server, { noServer: true });
+
+io.watch('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
@@ -44,13 +43,6 @@ io.watch('connection', (socket, request, data) => {
     // Disconnection
     socket.watch('close', () => {
         console.log('User disconnected!');
-    });
-});
-
-// Upgrade
-server.on('upgrade', (request, socket, head) => {
-    io.upgrade(request, socket, head, {
-        isOk: true,
     });
 });
 
@@ -110,7 +102,7 @@ socket.on('error', () => {
 ```javascript
 const url = require('url');
 
-server.on('upgrade', async (request, socket, head) => {
+io.authentication(async (io, socket, request) => {
     // 1. Get the token from query params
     const token = url.parse(request.url, true).query.token;
 
@@ -118,12 +110,13 @@ server.on('upgrade', async (request, socket, head) => {
     const token = request.headers['sec-websocket-protocol'];
 
     // Authentication (Implement your own authentication function)
-    const auth = await authentication(token);
+    const data = await authentication(token);
 
-    io.upgrade(request, socket, head, {
-        isOk: auth.status,
-        data: auth.data
-    });
+    if (data.isAuthenticated) {
+        socket.user = data.user;
+    }
+
+    return data.isAuthenticated;
 });
 ```
 
