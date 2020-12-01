@@ -28,6 +28,15 @@ class Clients {
     }
 
     /**
+     * Check if the client exists.
+     * @param {string} id
+     * @returns {object}
+     */
+    static has(id) {
+        return id in Clients.obj;
+    }
+
+    /**
      * Get all clients.
      * @returns {object}
      */
