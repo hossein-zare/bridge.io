@@ -10,6 +10,7 @@ class BridgeIO {
         this.server = new WebSocket.Server(...args);
         this.events = {
             connection: () => {},
+            close: () => {},
             authentication: null
         };
 
