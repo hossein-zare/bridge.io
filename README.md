@@ -142,6 +142,15 @@ io.broadcast(event: string, data: string|object);
 
 // Broadcasting to all clients in the specified rooms
 io.room(room: string|array);
+
+// Get all clients
+io.clients.all();
+
+// Get a client by socket id
+io.clients.get(id: string);
+
+// Check if a client exists
+io.clients.has(id: string);
 ```
 
 ### Socket
