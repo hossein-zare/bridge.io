@@ -147,7 +147,7 @@ class BridgeIO {
 
                 ws.authenticated = true;
                 if (this.events.authentication !== null) {
-                    ws.authenticated = this.events.authentication(instance, ws, request, socket);
+                    ws.authenticated = this.events.authentication(instance, ws, socket, request);
                 }
     
                 this.server.emit('connection', ws, request);
