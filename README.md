@@ -131,6 +131,19 @@ const socket = new BridgeIO(`ws://localhost:3000/?token=${token}`, {
 });
 ```
 
+## Manual Socket ID
+Bridge.IO creates a unique identifier per socket, If you want it to be something like `username` or `id` in the database which makes more sense than a UID:
+```javascript
+io.authentication(async (io, socket, request) => {
+    ...
+
+    const user = await getUser(token);
+    socket.id = user.id;
+
+    return true;
+});
+```
+
 ## Methods & Properties
 ### IO
 ```javascript
