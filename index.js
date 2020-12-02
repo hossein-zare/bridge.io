@@ -36,7 +36,11 @@ class BridgeIO {
                 return;
             }
 
-            ws.id = this.generateUID();
+            // Generate Socket ID
+            if (! ('id' in ws)) {
+                ws.id = this.generateUID();
+            }
+            
             ws.cast = Caster.cast;
             ws.broadcast = Caster.broadcast;
             ws.rooms = [];
