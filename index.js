@@ -147,11 +147,11 @@ class BridgeIO {
     upgrade() {
         const instance = this;
         this.httpServer.on('upgrade', (request, socket, head) => {
-            this.server.handleUpgrade(request, socket, head, (ws) => {
+            this.server.handleUpgrade(request, socket, head, async (ws) => {
 
                 ws.authenticated = true;
                 if (this.events.authentication !== null) {
-                    ws.authenticated = this.events.authentication(instance, ws, request, socket);
+                    ws.authenticated = await this.events.authentication(instance, ws, request, socket);
                 }
     
                 this.server.emit('connection', ws, request);
