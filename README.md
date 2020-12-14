@@ -72,7 +72,7 @@ socket.on('open', () => {
     console.log('connected');
 });
 
-socket.on('connection_ready', () => {
+socket.on('connection_ready', (reconnected) => {
     console.log('the connection is ready');
 
     // Cast a message when connected
