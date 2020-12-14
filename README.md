@@ -153,10 +153,10 @@ io.authentication(async (io, socket, request) => {
 ### IO
 ```javascript
 // Casting to an specific client
-io.to(id: string).cast(event: string, data: string|object);
+io.to(id: string).cast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to everyone
-io.broadcast(event: string, data: string|object);
+io.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified rooms
 io.room(room: string|array);
@@ -174,16 +174,16 @@ io.clients.has(id: string);
 ### Socket
 ```javascript
 // Casting to the client
-socket.cast(event: string, data: string|object);
+socket.cast(event: string, data: string|object|boolean|number);
 
 // Casting with acknowledgement (Client-Side)
-socket.cast(event: string, data: string|object, callback: () => void);
+socket.cast(event: string, data: string|object|boolean|number, callback: () => void);
 
 // Broadcasting to everyone except the caster
-socket.broadcast(event: string, data: string|object);
+socket.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified rooms except the caster
-socket.room(room: string|array).cast(event: string, data: string|object);
+socket.room(room: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Joining a room
 socket.join(room: string);
