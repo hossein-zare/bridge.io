@@ -30,33 +30,6 @@ class BridgeIO {
      */
     defaultEvents() {
         this.server.on('connection', (ws, ...args) => {
-            // Check if the connection is authenticated
-            if (! ws.authenticated) {
-                ws.close(4000, "HTTP Authentication failed");
-                return;
-            }
-
-            // Generate Socket ID
-            if (! ('id' in ws)) {
-                ws.id = this.generateUID();
-            }
-            
-            ws.cast = Caster.cast;
-            ws.broadcast = Caster.broadcast;
-            ws.rooms = [];
-            ws.join = Rooms.join;
-            ws.leave = Rooms.leave;
-            ws.room = Rooms.room;
-            ws.events = {};
-            ws.watch = this.watch;
-
-            // Add client
-            Clients.add(ws.id, ws);
-            this.events.connection(ws, ...args);
-
-            // Ping Pong
-            ws.isAlive = true;
-
             // Message
             ws.on('message', (message) => {
                 if (message === '10') {
@@ -106,6 +79,10 @@ class BridgeIO {
                 // Delete client
                 delete Clients.delete(ws.id);
             });
+
+            // Ready
+            this.events.connection(ws, ...args);
+            ws.cast('ready');
         });
 
         const pongInterval = setInterval(() => {
@@ -148,11 +125,36 @@ class BridgeIO {
         const instance = this;
         this.httpServer.on('upgrade', (request, socket, head) => {
             this.server.handleUpgrade(request, socket, head, async (ws) => {
-
                 ws.authenticated = true;
                 if (this.events.authentication !== null) {
                     ws.authenticated = await this.events.authentication(instance, ws, request, socket);
                 }
+
+                // Check if the connection is authenticated
+                if (! ws.authenticated) {
+                    ws.close(4000, "HTTP Authentication failed");
+                    return;
+                }
+
+                ws.cast = Caster.cast;
+                ws.broadcast = Caster.broadcast;
+                ws.rooms = [];
+                ws.join = Rooms.join;
+                ws.leave = Rooms.leave;
+                ws.room = Rooms.room;
+                ws.events = {};
+                ws.watch = this.watch;
+    
+                // Ping Pong
+                ws.isAlive = true;
+
+                // Generate Socket ID
+                if (! ('id' in ws)) {
+                    ws.id = this.generateUID();
+                }
+
+                // Add client
+                Clients.add(ws.id, ws);
     
                 this.server.emit('connection', ws, request);
             });

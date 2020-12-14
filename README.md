@@ -68,7 +68,12 @@ const socket = new BridgeIO(`ws://localhost:3000`, {
 socket.connect();
 
 socket.on('open', () => {
+    // Connected but no ready
     console.log('connected');
+});
+
+socket.on('connection_ready', () => {
+    console.log('the connection is ready');
 
     // Cast a message when connected
     socket.cast('message', 'hello', function acknowledgement(msg) {
