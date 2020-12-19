@@ -34,6 +34,10 @@ class Rooms {
                 return this;
 
             Rooms.obj[room].splice(index, 1);
+
+            // Delete the room if its empty
+            if (Rooms.obj[room].length === 0)
+                delete Rooms.obj[room];
             
             const roomIndex = this.rooms.findIndex(item => item === room);
             this.rooms.splice(roomIndex, 1);
