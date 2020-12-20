@@ -72,7 +72,7 @@ class BridgeIO {
                     ws.events.close(e);
 
                 // Delete client from all rooms
-                ws.rooms.forEach(room => {
+                ws.rooms.slice().forEach(room => {
                     ws.leave(room);
                 });
 
