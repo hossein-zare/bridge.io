@@ -206,6 +206,14 @@ class BridgeIO {
     get clients() {
         return Clients;
     }
+
+    /**
+     * Get rooms.
+     * @returns {object}
+     */
+    get rooms() {
+        return Rooms;
+    }
 }
 
 module.exports = (httpServer, opt) => {

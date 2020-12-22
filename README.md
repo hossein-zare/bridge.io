@@ -159,7 +159,7 @@ io.to(id: string).cast(event: string, data: string|object|boolean|number);
 io.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified rooms
-io.room(room: string|array);
+io.room(room: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Get all clients
 io.clients.all();
@@ -169,6 +169,18 @@ io.clients.get(id: string);
 
 // Check if a client exists
 io.clients.has(id: string);
+
+// Get all rooms
+io.rooms.all();
+
+// Get a room by name
+io.rooms.get(room: string);
+
+// Check if a client exists
+io.rooms.has(room: string);
+
+// Get members of rooms
+io.rooms.members(room: string|array);
 ```
 
 ### Socket

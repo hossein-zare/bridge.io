@@ -81,6 +81,24 @@ class Rooms {
     }
 
     /**
+     * Get a Room.
+     * @param {string} room 
+     * @returns {object}
+     */
+    static get(room) {
+        return Rooms.obj[room];
+    }
+
+    /**
+     * Check if the room exists.
+     * @param {string} room
+     * @returns {object}
+     */
+    static has(room) {
+        return room in Rooms.obj;
+    }
+
+    /**
      * Cast to an specific room.
      * @param {string|array} rooms 
      * @returns {object}
