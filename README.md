@@ -176,7 +176,7 @@ io.rooms.all();
 // Get a room by name
 io.rooms.get(room: string);
 
-// Check if a client exists
+// Check if a room exists
 io.rooms.has(room: string);
 
 // Get members of rooms
