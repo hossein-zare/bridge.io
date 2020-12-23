@@ -7,7 +7,7 @@ class Clients {
      * @param {object} client 
      */
     static add(id, client) {
-        Clients.storage.set(id, client);
+        return Clients.storage.set(id, client);
     }
 
     /**
@@ -15,7 +15,7 @@ class Clients {
      * @param {string} id 
      */
     static delete(id) {
-        Clients.storage.delete(id);
+        return Clients.storage.delete(id);
     }
 
     /**
@@ -24,7 +24,7 @@ class Clients {
      * @returns {object}
      */
     static get(id) {
-        Clients.storage.get(id);
+        return Clients.storage.get(id);
     }
 
     /**
@@ -33,7 +33,7 @@ class Clients {
      * @returns {object}
      */
     static has(id) {
-        Clients.storage.has(id);
+        return Clients.storage.has(id);
     }
 
     /**

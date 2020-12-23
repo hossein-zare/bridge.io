@@ -50,10 +50,10 @@ class Rooms {
         
         // Get the members
         rooms.forEach(room => {
-            const roomMembers = Rooms.storage.has(room) ? Rooms.storage.get(room) : [];
+            const arr = Rooms.storage.has(room) ? Array.from(Rooms.storage.get(room)) : [];
             
-            if (roomMembers) {
-                members.push(roomMembers);
+            if (arr) {
+                members.push(arr);
             }
         });
 
