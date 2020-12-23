@@ -1,7 +1,7 @@
 const Caster = require('./caster');
 
 class Rooms {
-    static obj = {};
+    static storage = new Map();
 
     /**
      * Join the room.
@@ -9,14 +9,12 @@ class Rooms {
      * @returns {object}
      */
     static join(room) {
-        if (! (room in Rooms.obj)) {
-            Rooms.obj[room] = [];
+        if (! Rooms.storage.has(room)) {
+            Rooms.storage.set(room, new Set());
         }
 
-        if (! Rooms.obj[room].includes(this.id)) {
-            Rooms.obj[room].push(this.id);
-            this.rooms.push(room);
-        }
+        Rooms.storage.get(room).add(this.id);
+        this.rooms.add(room);
 
         return this;
     }
@@ -27,20 +25,13 @@ class Rooms {
      * @returns {object}
      */
     static leave(room) {
-        if (room in Rooms.obj) {
-            const index = Rooms.obj[room].findIndex(item => item === this.id);
+        if (Rooms.storage.has(room)) {
+            Rooms.storage.get(room).delete(this.id);
+            this.rooms.delete(room);
 
-            if (index === -1)
-                return this;
-
-            Rooms.obj[room].splice(index, 1);
-
-            // Delete the room if its empty
-            if (Rooms.obj[room].length === 0)
-                delete Rooms.obj[room];
-            
-            const roomIndex = this.rooms.findIndex(item => item === room);
-            this.rooms.splice(roomIndex, 1);
+            if (Rooms.storage.get(room).size === 0) {
+                Rooms.storage.delete(room);
+            }
         }
 
         return this;
@@ -59,7 +50,7 @@ class Rooms {
         
         // Get the members
         rooms.forEach(room => {
-            const roomMembers = Rooms.obj.hasOwnProperty(room) ? Rooms.obj[room] : [];
+            const roomMembers = Rooms.storage.has(room) ? Rooms.storage.get(room) : [];
             
             if (roomMembers) {
                 members.push(roomMembers);
@@ -77,7 +68,7 @@ class Rooms {
      * @returns {object}
      */
     static all() {
-        return Rooms.obj;
+        return Rooms.storage;
     }
 
     /**
@@ -86,7 +77,7 @@ class Rooms {
      * @returns {object}
      */
     static get(room) {
-        return Rooms.obj[room];
+        return Rooms.storage.get(room);
     }
 
     /**
@@ -95,7 +86,7 @@ class Rooms {
      * @returns {object}
      */
     static has(room) {
-        return room in Rooms.obj;
+        return Rooms.storage.has(room);
     }
 
     /**

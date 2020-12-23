@@ -1,5 +1,5 @@
 class Clients {
-    static obj = {};
+    static storage = new Map();
 
     /**
      * Add a client.
@@ -7,7 +7,7 @@ class Clients {
      * @param {object} client 
      */
     static add(id, client) {
-        Clients.obj[id] = client;
+        Clients.storage.set(id, client);
     }
 
     /**
@@ -15,7 +15,7 @@ class Clients {
      * @param {string} id 
      */
     static delete(id) {
-        delete Clients.obj[id];
+        Clients.storage.delete(id);
     }
 
     /**
@@ -24,7 +24,7 @@ class Clients {
      * @returns {object}
      */
     static get(id) {
-        return Clients.obj[id];
+        Clients.storage.get(id);
     }
 
     /**
@@ -33,7 +33,7 @@ class Clients {
      * @returns {object}
      */
     static has(id) {
-        return id in Clients.obj;
+        Clients.storage.has(id);
     }
 
     /**
@@ -41,7 +41,7 @@ class Clients {
      * @returns {object}
      */
     static all() {
-        return Clients.obj;
+        return Clients.storage;
     }
 }
 

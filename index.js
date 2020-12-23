@@ -72,12 +72,12 @@ class BridgeIO {
                     ws.events.close(e);
 
                 // Delete client from all rooms
-                ws.rooms.slice().forEach(room => {
+                ws.rooms.forEach(room => {
                     ws.leave(room);
                 });
 
                 // Delete client
-                delete Clients.delete(ws.id);
+                Clients.delete(ws.id);
             });
 
             // Ready
@@ -138,7 +138,7 @@ class BridgeIO {
 
                 ws.cast = Caster.cast;
                 ws.broadcast = Caster.broadcast;
-                ws.rooms = [];
+                ws.rooms = new Set();
                 ws.join = Rooms.join;
                 ws.leave = Rooms.leave;
                 ws.room = Rooms.room;
@@ -181,9 +181,9 @@ class BridgeIO {
      * @param {any} data 
      */
     broadcast(event, data) {
-        for (const clientId in Clients.all()) {
-            Clients.get(clientId).cast(event, data);
-        }
+        Clients.all().forEach((id, client) => {
+            client.cast(event, data);
+        });
     }
 
     /**

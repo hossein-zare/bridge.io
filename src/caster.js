@@ -38,10 +38,10 @@ class Caster {
      * @param {any} data 
      */
     static broadcast(event, data) {
-        for (const clientId in Clients.all()) {
-            if (clientId !== this.id)
-                Clients.get(clientId).cast(event, data);
-        }
+        Clients.all().forEach((id, client) => {
+            if (id !== this.id)
+                client.cast(event, data);
+        });
     }
 }
 
