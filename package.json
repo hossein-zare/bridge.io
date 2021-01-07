@@ -28,6 +28,6 @@
     "ws": "^7.4.0",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
-    "bridge.io-client": "^1.0.10"
+    "bridge.io-client": "^1.1.0"
   }
 }
