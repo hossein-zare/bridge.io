@@ -1,6 +1,6 @@
 {
   "name": "bridge.io",
-  "version": "2.0.17",
+  "version": "2.0.18",
   "description": "NodeJS Realtime WebSocket Framework",
   "main": "index.js",
   "type": "commonjs",
