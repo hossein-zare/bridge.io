@@ -2,9 +2,9 @@
 Bridge.IO is a realtime websocket framework for NodeJS.
 
 ## Features
-- Broadcasting
 - Private messaging
-- Channel support
+- Broadcasting
+- Channel support (Pub/Sub)
 - Acknowledgement callback (RPC - Request/Response)
 - Auto-reconnection
 - Disconnection detector
@@ -31,12 +31,12 @@ io.on('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
-    socket.on('message', (message, callback) => {
+    socket.on('message', (message, response) => {
         // Send the message to everyone except the sender
         socket.broadcast('message', message);
 
-        // Acknowledgement
-        callback('success');
+        // Acknowledgement (RPC - Request/Response)
+        return response('success');
     });
 
     // Disconnection
@@ -75,7 +75,7 @@ socket.on('connection', (reconnected) => {
     console.log('The connection is ready!');
 
     // Cast a message when connected
-    socket.cast('message', 'hello', function acknowledgement(msg) {
+    socket.cast('message', 'hello', function response(msg) {
         console.log(msg);
     });
 });
