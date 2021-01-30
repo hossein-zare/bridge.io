@@ -1,4 +1,4 @@
-# Bridge.IO 3.x
+# Bridge.IO 2.x
 Bridge.IO is a realtime websocket framework for NodeJS.
 
 ## Features
@@ -20,19 +20,19 @@ npm i bridge.io
 ### Server-Side
 ```javascript
 // Create server
-const app = require('express')();
-const server = require('http').Server(app);
-const BridgeIO = require('./index');
+const http = require('http');
+const express = require('express');
+const app = express();
+const server = http.createServer(app);
 
-const io = new BridgeIO(app, server, {
-    noServer: true
-});
+// Bridge.IO
+const io = require('bridge.io')(server, { noServer: true });
 
-io.on('connection', (socket, request) => {
+io.watch('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
-    socket.on('message', (message, callback) => {
+    socket.watch('message', (message, callback) => {
         // Send the message to everyone except the sender
         socket.broadcast('message', message);
 
@@ -41,7 +41,7 @@ io.on('connection', (socket, request) => {
     });
 
     // Disconnection
-    socket.on('diconnected', () => {
+    socket.watch('close', () => {
         console.log('User disconnected!');
     });
 });
@@ -58,22 +58,22 @@ https://github.com/hossein-zare/bridge.io-client
 const BridgeIO = require('bridge.io-client');
 
 // The second argument is optional
-const socket = new BridgeIO({
-    server: 'ws://localhost:3000',
-    protocols: [],
-    response_timeout: 5000,
-    attempts: null,
-    delay: 2000,
-    reconnection: true
+const socket = new BridgeIO(`ws://localhost:3000`, {
+    attempts: 2,
+    timeout: 2000,
+    protocol: []
 });
+
+// Connect to the server
+socket.connect();
 
 socket.on('open', () => {
-    // Connected but not ready
-    console.log('Connected');
+    // Connected but no ready
+    console.log('connected');
 });
 
-socket.on('connection', (reconnected) => {
-    console.log('The connection is ready!');
+socket.on('connection_ready', (reconnected) => {
+    console.log('the connection is ready');
 
     // Cast a message when connected
     socket.cast('message', 'hello', function acknowledgement(msg) {
@@ -81,15 +81,15 @@ socket.on('connection', (reconnected) => {
     });
 });
 
-socket.on('disconnected', () => {
-    console.log('disconnected');
+socket.on('close', () => {
+    console.log('closed');
 });
 
 socket.on('reconnecting', () => {
     console.log('reconnecting');
 });
 
-socket.on('reconnection', () => {
+socket.on('reconnected', () => {
     console.log('reconnected');
 });
 
@@ -107,8 +107,12 @@ socket.on('error', () => {
 ```javascript
 const url = require('url');
 
-io.authentication(async (socket, request) => {
+io.authentication(async (io, socket, request) => {
+    // 1. Get the token from query params
     const token = url.parse(request.url, true).query.token;
+
+    // 2. Get the token from headers (Secure)
+    const token = request.headers['sec-websocket-protocol'];
 
     // Authentication (Implement your own authentication function)
     const data = await authentication(token);
@@ -125,7 +129,24 @@ io.authentication(async (socket, request) => {
 ```javascript
 const token = 'myToken';
 
-const socket = new BridgeIO(`ws://localhost:3000/?token=${token}`);
+// Avoid passing the token as a query parameter for security issues
+// SSL REQUIRED for production environment
+const socket = new BridgeIO(`ws://localhost:3000/?token=${token}`, {
+    protocol: token
+});
+```
+
+## Manual Socket ID
+Bridge.IO creates a unique identifier per socket, If you want it to be something like `username` or `id` in the database which makes more sense than a UID:
+```javascript
+io.authentication(async (io, socket, request) => {
+    ...
+
+    const user = await getUser(token);
+    socket.id = user.id;
+
+    return true;
+});
 ```
 
 ## Methods & Properties
@@ -137,8 +158,8 @@ io.to(id: string).cast(event: string, data: string|object|boolean|number);
 // Broadcasting to everyone
 io.broadcast(event: string, data: string|object|boolean|number);
 
-// Broadcasting to all clients in the specified channels
-io.channel(room: string|array).cast(event: string, data: string|object|boolean|number);
+// Broadcasting to all clients in the specified rooms
+io.room(room: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Get all clients
 io.clients.all();
@@ -149,17 +170,17 @@ io.clients.get(id: string);
 // Check if a client exists
 io.clients.has(id: string);
 
-// Get all channels
-io.channels.all();
+// Get all rooms
+io.rooms.all();
 
-// Get a channel by name
-io.channels.get(channel: string);
+// Get a room by name
+io.rooms.get(room: string);
 
-// Check if a channel exists
-io.channels.has(channel: string);
+// Check if a room exists
+io.rooms.has(room: string);
 
-// Get subscribers of the channels
-io.channels.subscribers(room: string|array);
+// Get members of rooms
+io.rooms.members(room: string|array);
 ```
 
 ### Socket
@@ -170,17 +191,17 @@ socket.cast(event: string, data: string|object|boolean|number);
 // Casting with acknowledgement (Client-Side)
 socket.cast(event: string, data: string|object|boolean|number, callback: () => void);
 
-// Broadcasting to everyone except the sender
+// Broadcasting to everyone except the caster
 socket.broadcast(event: string, data: string|object|boolean|number);
 
-// Broadcasting to all clients in the specified channels except the sender
-socket.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
+// Broadcasting to all clients in the specified rooms except the caster
+socket.room(room: string|array).cast(event: string, data: string|object|boolean|number);
 
-// Subscribing to a channel
+// Joining a room
 socket.join(room: string);
 
-// Unsubscribing from a channel
-socket.Unsubscribe(room: string);
+// Leaving a room
+socket.leave(room: string);
 
 // Disconnecting the client
 // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
@@ -189,6 +210,6 @@ socket.close(code: Number, reason: string);
 // Client ID
 const id = socket.id;
 
-// Client channels
-const channels = socket.channels;
+// Client rooms
+const rooms = socket.rooms;
 ```

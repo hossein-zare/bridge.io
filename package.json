@@ -1,6 +1,6 @@
 {
   "name": "bridge.io",
-  "version": "3.0.0",
+  "version": "2.0.18",
   "description": "NodeJS Realtime WebSocket Framework",
   "main": "index.js",
   "type": "commonjs",
@@ -25,7 +25,9 @@
     "url": "git+https://github.com/hossein-zare/bridge.io.git"
   },
   "dependencies": {
+    "ws": "^7.4.0",
+    "crypto-js": "^4.0.0",
     "express": "^4.17.1",
-    "ws": "^7.4.2"
+    "bridge.io-client": "^1.1.0"
   }
 }
