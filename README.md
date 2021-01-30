@@ -138,7 +138,7 @@ io.to(id: string).cast(event: string, data: string|object|boolean|number);
 io.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified channels
-io.channel(room: string|array).cast(event: string, data: string|object|boolean|number);
+io.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Get all clients
 io.clients.all();
@@ -159,7 +159,7 @@ io.channels.get(channel: string);
 io.channels.has(channel: string);
 
 // Get subscribers of the channels
-io.channels.subscribers(room: string|array);
+io.channels.subscribers(channel: string|array);
 ```
 
 ### Socket
@@ -177,10 +177,10 @@ socket.broadcast(event: string, data: string|object|boolean|number);
 socket.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Subscribing to a channel
-socket.subscribe(room: string);
+socket.subscribe(channel: string);
 
 // Unsubscribing from a channel
-socket.unsubscribe(room: string);
+socket.unsubscribe(channel: string);
 
 // Disconnecting the client
 // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
