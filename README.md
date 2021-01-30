@@ -107,7 +107,7 @@ socket.on('error', (e) => {
 ```javascript
 const url = require('url');
 
-io.authentication(async (socket, request) => {
+io.auth(async (socket, request) => {
     const token = url.parse(request.url, true).query.token;
 
     // Authentication (Implement your own authentication function)
