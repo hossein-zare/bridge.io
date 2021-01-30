@@ -65,12 +65,12 @@ const socket = new BridgeIO({
     reconnection: true
 });
 
-socket.on('open', () => {
+socket.on('open', (e) => {
     // Connected but not ready
     console.log('Connected');
 });
 
-socket.on('connection', (reconnected) => {
+socket.on('connection', (e) => {
     console.log('The connection is ready!');
 
     // Cast a message when connected
@@ -79,15 +79,15 @@ socket.on('connection', (reconnected) => {
     });
 });
 
-socket.on('disconnected', () => {
+socket.on('disconnected', (e) => {
     console.log('disconnected');
 });
 
-socket.on('reconnecting', () => {
+socket.on('reconnecting', (e) => {
     console.log('reconnecting');
 });
 
-socket.on('reconnection', () => {
+socket.on('reconnection', (e) => {
     console.log('reconnected');
 });
 
@@ -95,7 +95,7 @@ socket.on('message', (data) => {
     console.log(data);
 });
 
-socket.on('error', () => {
+socket.on('error', (e) => {
     console.log('error');
 });
 </script>
