@@ -178,7 +178,7 @@ socket.broadcast(event: string, data: string|object|boolean|number);
 socket.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
 
 // Subscribing to a channel
-socket.join(room: string);
+socket.subscribe(room: string);
 
 // Unsubscribing from a channel
 socket.unsubscribe(room: string);
