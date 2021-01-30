@@ -22,9 +22,8 @@ npm i bridge.io
 // Create server
 const app = require('express')();
 const server = require('http').Server(app);
-const BridgeIO = require('./index');
 
-const io = new BridgeIO(app, server, {
+const io = new require('bridge.io')(app, server, {
     noServer: true
 });
 
