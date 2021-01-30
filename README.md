@@ -58,9 +58,6 @@ https://github.com/hossein-zare/bridge.io-client
 ```html
 <script src="/bridge.io/bridge.io.js"></script>
 <script>
-const BridgeIO = require('bridge.io-client');
-
-// The second argument is optional
 const socket = new BridgeIO({
     server: 'ws://localhost:3000',
     protocols: [],
