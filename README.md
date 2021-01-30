@@ -31,12 +31,11 @@ io.on('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
-    socket.on('message', (message, response) => {
-        // Send the message to everyone except the sender
-        socket.broadcast('message', message);
+    socket.on('sum', (message, response) => {
+        const { a, b } = message;
 
         // Acknowledgement (RPC - Request/Response)
-        return response('success');
+        return response(a + b);
     });
 
     // Disconnection
@@ -75,8 +74,8 @@ socket.on('connection', (reconnected) => {
     console.log('The connection is ready!');
 
     // Cast a message when connected
-    socket.cast('message', 'hello', function response(msg) {
-        console.log(msg);
+    socket.cast('sum', { a: 1, b: 2 }, function response(result) {
+        console.log('Result:', result); // Result: 3
     });
 });
 
