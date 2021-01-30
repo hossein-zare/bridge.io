@@ -180,7 +180,7 @@ socket.channel(channel: string|array).cast(event: string, data: string|object|bo
 socket.join(room: string);
 
 // Unsubscribing from a channel
-socket.Unsubscribe(room: string);
+socket.unsubscribe(room: string);
 
 // Disconnecting the client
 // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
