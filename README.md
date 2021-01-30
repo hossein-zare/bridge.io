@@ -54,7 +54,10 @@ server.listen(3000, () => {
 
 ### Client-Side
 https://github.com/hossein-zare/bridge.io-client
-```javascript
+
+```html
+<script src="/socket.io/socket.io.js"></script>
+<script>
 const BridgeIO = require('bridge.io-client');
 
 // The second argument is optional
@@ -100,6 +103,7 @@ socket.on('message', (data) => {
 socket.on('error', () => {
     console.log('error');
 });
+</script>
 ```
 
 ## Authentication
