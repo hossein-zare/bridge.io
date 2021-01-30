@@ -56,7 +56,7 @@ server.listen(3000, () => {
 https://github.com/hossein-zare/bridge.io-client
 
 ```html
-<script src="/socket.io/socket.io.js"></script>
+<script src="/bridge.io/bridge.io.js"></script>
 <script>
 const BridgeIO = require('bridge.io-client');
 
