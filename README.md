@@ -23,7 +23,8 @@ npm i bridge.io
 const app = require('express')();
 const server = require('http').Server(app);
 
-const io = new require('bridge.io')(app, server, {
+const BridgeIO = new require('bridge.io');
+const io = new BridgeIO(app, server, {
     noServer: true
 });
 
