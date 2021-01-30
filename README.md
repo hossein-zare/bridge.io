@@ -65,12 +65,12 @@ const socket = new BridgeIO({
     reconnection: true
 });
 
-socket.on('open', (e) => {
+socket.on('open', (e, reconnected) => {
     // Connected but not ready
     console.log('Connected');
 });
 
-socket.on('connection', (e) => {
+socket.on('connection', (e, reconnected) => {
     console.log('The connection is ready!');
 
     // Cast a message when connected

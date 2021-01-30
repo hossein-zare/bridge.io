@@ -56,7 +56,8 @@ class BridgeIO extends EventEmitter {
 
     socketEvents() {
         this.socket.onopen = (e) => {
-            this.emit('open', e);
+            const reconnected = this.reconnectionAttempts > 0;
+            this.emit('open', e, reconnected);
         };
 
         this.socket.onerror = (e) => {
@@ -84,9 +85,10 @@ class BridgeIO extends EventEmitter {
             const {data} = e;
 
             if (this.isReadyFlag(data)) {
-                this.emit('connection', e);
+                const reconnected = this.reconnectionAttempts > 0;
+                this.emit('connection', e, reconnected);
                 
-                if (this.reconnectionAttempts > 0)
+                if (reconnected)
                     this.emit('reconnection', e);
 
                 this.reconnectionAttempts = 0;
