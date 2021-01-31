@@ -1,6 +1,5 @@
-/*! Bridge.IO-Client 2.0.1
+/*! Bridge.IO-Client 2.x
 //@ Hossein Zare
-//@ January 30, 2021
 */
 class EventEmitter {
     constructor(){
