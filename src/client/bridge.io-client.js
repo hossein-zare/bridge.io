@@ -93,7 +93,7 @@ class BridgeIO extends EventEmitter {
 
                 this.reconnectionAttempts = 0;
             } else if (this.isPong(data)) {
-                this.pong();
+                this.ping();
             } else {
                 try {
                     this.message(data);
@@ -165,7 +165,7 @@ class BridgeIO extends EventEmitter {
         return Number(data) === 0xA;
     }
 
-    pong() {
+    ping() {
         this.socket.send(this.isReactNative ? '9' : 0x9)
     }
 
