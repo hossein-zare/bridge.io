@@ -32,7 +32,7 @@ io.on('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
-    socket.on('sum', (message, response) => {
+    socket.on('sum', (io, socket, message, response) => {
         const { a, b } = message;
 
         // Acknowledgement (RPC - Request/Response)

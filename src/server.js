@@ -71,7 +71,7 @@ class Server extends Events.EventEmitter {
                         const [event, data, id = undefined] = obj;
 
                         if (typeof event === 'string') {
-                            socket.emit(event, data, (data) => {
+                            socket.emit(event, this, socket, data, (data) => {
                                 if (id)
                                     socket.cast('rpc', data, id);
                             });
