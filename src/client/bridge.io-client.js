@@ -1,4 +1,4 @@
-/*! Bridge.IO-Client 2.0.0
+/*! Bridge.IO-Client 2.0.1
 //@ Hossein Zare
 //@ January 30, 2021
 */
