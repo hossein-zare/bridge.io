@@ -37,6 +37,18 @@ io.on('connection', (socket, request) => {
 
         // Acknowledgement (RPC - Request/Response)
         return response(a + b);
+
+        // Or
+        return response({
+            status: 200,
+            data: a + b
+        });
+
+        // Or
+        return response({
+            status: 400,
+            data: 'Error'
+        });
     });
 
     // Disconnection
@@ -75,12 +87,18 @@ socket.on('connection', (e, reconnected) => {
     console.log('The connection is ready!');
 
     // Cast a message when connected
+    const config = { timeout: 3000 }; // optional
     socket.cast('sum', { a: 1, b: 2 }, function response(result) {
+
         console.log('Result:', result); // Result: 3
+
     }, function error(e) {
-        console.warn(e.status);
-        console.warn(e.data);
-    });
+        if (e === null) {
+            // timeout
+        } else {
+            console.log(e.status, e.data);
+        }
+    }, config);
 });
 
 socket.on('disconnected', (e) => {

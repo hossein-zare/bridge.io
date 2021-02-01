@@ -124,18 +124,23 @@ class BridgeIO extends EventEmitter {
 
     rpc(message) {
         const [event, data, id] = message;
-        const {status = null} = data;
-        
-        if (status === null || status >= 400) {
-            if (this.errorCallbacks[id]) {
-                this.errorCallbacks[id](data);
+
+        if (Object.prototype.toString.call(data) === "[object Object]") {
+            if (data.hasOwnProperty('status') && Number.isInteger(data.status) && data.status >= 400) {
+                if (this.errorCallbacks[id]) {
+                    this.errorCallbacks[id](data);
+                }
+            } else {
+                if (this.responseCallbacks[id]) {
+                    this.responseCallbacks[id](data);
+                }
             }
         } else {
             if (this.responseCallbacks[id]) {
                 this.responseCallbacks[id](data);
             }
         }
-
+        
         if (this.responseCallbacks[id])
             delete this.responseCallbacks[id];
         if (this.errorCallbacks[id])
@@ -169,7 +174,7 @@ class BridgeIO extends EventEmitter {
                 delete this.responseCallbacks[id];
 
                 if (this.errorCallbacks[id]) {
-                    this.errorCallbacks[id]({ status: null });
+                    this.errorCallbacks[id](null); // timeout
                     delete this.errorCallbacks[id];
                 }
             }, config.timeout);
