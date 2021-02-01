@@ -77,6 +77,9 @@ socket.on('connection', (e, reconnected) => {
     // Cast a message when connected
     socket.cast('sum', { a: 1, b: 2 }, function response(result) {
         console.log('Result:', result); // Result: 3
+    }, function error(e) {
+        console.warn(e.status);
+        console.warn(e.data);
     });
 });
 
