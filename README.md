@@ -138,7 +138,7 @@ io.to(id: string).cast(event: string, data: string|object|boolean|number);
 io.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified channels
-io.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
+io.channel(channel: string|array, except: array).cast(event: string, data: string|object|boolean|number);
 
 // Get all clients
 io.clients.all();
@@ -174,7 +174,7 @@ socket.cast(event: string, data: string|object|boolean|number, callback: () => v
 socket.broadcast(event: string, data: string|object|boolean|number);
 
 // Broadcasting to all clients in the specified channels except the sender
-socket.channel(channel: string|array).cast(event: string, data: string|object|boolean|number);
+socket.channel(channel: string|array, except: array).cast(event: string, data: string|object|boolean|number);
 
 // Subscribing to a channel
 socket.subscribe(channel: string);
