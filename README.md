@@ -90,7 +90,7 @@ socket.on('connection', (e, reconnected) => {
     const config = { timeout: 3000 }; // optional
     socket.cast('sum', { a: 1, b: 2 }, function response(result) {
 
-        console.log('Result:', result); // Result: 3
+        console.log('Result:', result); // Result: 3, Result: {status: 200, data: 3}
 
     }, function error(e) {
         if (e === null) {
