@@ -88,7 +88,7 @@ class Server extends Events.EventEmitter {
 
                 // Unsubscribe the client from all channels
                 socket.channels.forEach(channel => {
-                    socket.leave(channel);
+                    socket.unsubscribe(channel);
                 });
 
                 // Delete the client
