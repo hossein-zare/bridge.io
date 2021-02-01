@@ -174,11 +174,12 @@ class Server extends Events.EventEmitter {
 
     /**
      * Cast a message to the subscribers of the specified channels.
-     * @param {string|array} channels 
+     * @param {string|array} channels
+     * @param {array} except
      * @returns {object}
      */
-    channel(channels) {
-        return Channel.channel(channels);
+    channel(channels, except = []) {
+        return Channel.channel(channels, except);
     }
 
     /**
