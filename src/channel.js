@@ -4,11 +4,16 @@ const ChannelStorage = require('./channel-storage');
 class Channel {
     /**
      * Broadcast to an specific channel.
-     * @param {string|array} channels 
+     * @param {string|array} channels
+     * @param {array} except
      * @returns {object}
      */
-    static channel(channels) {
-        const subscribers = ChannelStorage.subscribers(channels);
+    static channel(channels, except = []) {
+        let subscribers = ChannelStorage.subscribers(channels);
+
+        if (except.length > 0)
+            subscribers = subscribers.filter(item => ! except.includes(item));
+            
         const isWebSocket = this.constructor.name === 'WebSocket';
 
         return {
