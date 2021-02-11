@@ -105,8 +105,8 @@ class BridgeIO extends EventEmitter {
     }
 
     message(message) {
-        message = this.toString(message);
-        message = atob(message);
+        // message = this.toString(message);
+        // message = atob(message);
         message = JSON.parse(message);
 
         const [event, data, id = undefined] = message;
@@ -152,8 +152,8 @@ class BridgeIO extends EventEmitter {
     serializeMessage(event, data, id) {
         let message = [event, data, id];
             message = JSON.stringify(message);
-            message = btoa(message);
-            message = this.toBuffer(message);
+            // message = btoa(message);
+            // message = this.toBuffer(message);
 
         return message;
     }

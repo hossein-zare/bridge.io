@@ -22,8 +22,8 @@ const toBase64 = (message) => {
  * @return {object}
  */
 const incomingMessage = (message) => {
-    message = String.fromCharCode.apply(null, message);
-    message = toString(message);
+    // message = String.fromCharCode.apply(null, message);
+    // message = toString(message);
     message = JSON.parse(message);
 
     return message;
@@ -36,8 +36,8 @@ const incomingMessage = (message) => {
  */
 const outgoingMessage = (message) => {
     message = JSON.stringify(message);
-    message = toBase64(message);
-    message = str2ab(message);
+    // message = toBase64(message);
+    // message = str2ab(message);
 
     return message;
 }
