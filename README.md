@@ -52,7 +52,7 @@ io.on('connection', (socket, request) => {
     });
 
     // Disconnection
-    socket.on('diconnected', () => {
+    socket.on('disconnected', () => {
         console.log('User disconnected!');
     });
 });
