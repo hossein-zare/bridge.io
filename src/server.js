@@ -84,7 +84,7 @@ class Server extends Events.EventEmitter {
 
             // The client disconnected
             socket.on('close', (e) => {
-                socket.emit('diconnected', e);
+                socket.emit('disconnected', this, socket, e);
 
                 // Unsubscribe the client from all channels
                 socket.channels.forEach(channel => {
