@@ -22,8 +22,6 @@ const toBase64 = (message) => {
  * @return {object}
  */
 const incomingMessage = (message) => {
-    // message = String.fromCharCode.apply(null, message);
-    // message = toString(message);
     message = JSON.parse(message);
 
     return message;
@@ -36,27 +34,8 @@ const incomingMessage = (message) => {
  */
 const outgoingMessage = (message) => {
     message = JSON.stringify(message);
-    // message = toBase64(message);
-    // message = str2ab(message);
 
     return message;
-}
-
-
-/**
- * Convert string to ArrayBuffer.
- * @param {string} str
- * @returns {object}
- */
-const str2ab = (str) => {
-    const len = str.length;
-    const buf = new ArrayBuffer(len * 2);
-    let bufView = new Uint16Array(buf);
-
-    for (let i = 0; i < len; i++)
-        bufView[i] = str.charCodeAt(i);
-
-    return buf;
 }
 
 /**

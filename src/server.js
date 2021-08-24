@@ -1,4 +1,4 @@
-const WebSocket = require('ws');
+const { WebSocketServer } = require('ws');
 const Events = require('events');
 const Utils = require('./utils');
 const Socket = require('./socket');
@@ -12,7 +12,7 @@ class Server extends Events.EventEmitter {
 
         this.app = app;
         this.http = http;
-        this.server = new WebSocket.Server(params);
+        this.server = new WebSocketServer(params);
         this.authentication = () => true;
         this.events();
         this.upgrade();
