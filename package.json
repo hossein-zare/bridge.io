@@ -1,8 +1,9 @@
 {
   "name": "bridge.io",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "description": "NodeJS Realtime WebSocket Framework",
   "main": "index.js",
+  "types": "index.d.ts",
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
