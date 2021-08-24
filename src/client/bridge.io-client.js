@@ -105,8 +105,6 @@ class BridgeIO extends EventEmitter {
     }
 
     message(message) {
-        // message = this.toString(message);
-        // message = atob(message);
         message = JSON.parse(message);
 
         const [event, data, id = undefined] = message;
@@ -152,8 +150,6 @@ class BridgeIO extends EventEmitter {
     serializeMessage(event, data, id) {
         let message = [event, data, id];
             message = JSON.stringify(message);
-            // message = btoa(message);
-            // message = this.toBuffer(message);
 
         return message;
     }
@@ -195,20 +191,5 @@ class BridgeIO extends EventEmitter {
 
     ping() {
         this.socket.send(this.isReactNative ? '9' : 0x9)
-    }
-
-    toString(buf) {
-        return String.fromCharCode.apply(null, new Uint16Array(buf));
-    }
-
-    toBuffer(str) {
-        const len = str.length;
-        const buf = new ArrayBuffer(len * 2);
-        let bufView = new Uint16Array(buf);
-
-        for (let i = 0; i < len; i++)
-            bufView[i] = str.charCodeAt(i);
-
-        return buf;
     }
 }
