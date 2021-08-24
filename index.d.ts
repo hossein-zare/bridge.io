@@ -1,10 +1,12 @@
+import { IncomingMessage } from "http";
+import { Socket as NetSocket } from "net";
 export as namespace BridgeIOLib
-
 export = BridgeIO;
 
 declare class BridgeIO {
   constructor(app: typeof import("express") | any, server: any, config: BridgeIO.Config)
-
+ 
+  auth(callback: BridgeIO.AuthCallback): void;
   on(event: BridgeIO.IOEventName, callback: BridgeIO.IOCallback): void;
   to(id: string): BridgeIO.Cast;
   broadcast(event: string, data: string | object | boolean | number): void;
@@ -19,8 +21,10 @@ declare namespace BridgeIO {
     noServer: boolean;
   }
 
+  export type AuthCallback = (socket: NetSocket, request: IncomingMessage) => Promise<boolean> | boolean;
+
   export type IOEventName = "connection";
-  export type IOCallback = (socket: Socket, request: import("http").IncomingMessage) => void;
+  export type IOCallback = (socket: Socket, request: IncomingMessage) => void;
 
   type SocketCallback = (io: BridgeIO, socket: Socket, message: any, response: SocketCallbackResponse) => void;
   type SocketCallbackDisconnected = (io: BridgeIO, socket: Socket, e: number) => void;
