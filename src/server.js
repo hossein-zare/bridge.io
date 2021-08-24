@@ -13,7 +13,7 @@ class Server extends Events.EventEmitter {
         this.app = app;
         this.http = http;
         this.server = new WebSocketServer(params);
-        this.authentication = () => true;
+        this.authentication = () => Promise.resolve(true);
         this.events();
         this.upgrade();
         this.ping();
