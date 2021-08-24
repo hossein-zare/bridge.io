@@ -1,22 +1,4 @@
 /**
- * Convert base64 to string.
- * @param {string} message
- * @returns {string} 
- */
-const toString = (message) => {
-    return Buffer.from(message, 'base64').toString('binary');
-};
-
-/**
- * Convert string to base64.
- * @param {string} message 
- * @returns {string}
- */
-const toBase64 = (message) => {
-    return Buffer.from(message).toString('base64');
-};
-
-/**
  * Decode incomming message.
  * @param {object} message
  * @return {object}
@@ -56,5 +38,5 @@ const isArray = obj => {
 }
 
 module.exports = {
-    toString, toBase64, incomingMessage, outgoingMessage, generateUID, isArray
+    incomingMessage, outgoingMessage, generateUID, isArray
 };
