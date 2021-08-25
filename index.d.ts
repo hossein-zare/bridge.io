@@ -28,7 +28,7 @@ declare namespace BridgeIO {
   type SocketCallback = (io: BridgeIO, socket: Socket, message: any, response: SocketCallbackResponse) => void;
   type SocketCallbackDisconnected = (io: BridgeIO, socket: Socket, e: number) => void;
 
-  interface Socket<User = any> {
+  type Socket<T = any> = T & {
     on(event: string, callback: SocketCallback): void;
     on(event: "disconnected", callback: SocketCallbackDisconnected): void;
     cast(event: string, data: string | object | boolean | number): void;
@@ -39,9 +39,7 @@ declare namespace BridgeIO {
     close(code?: Number, reason?: string): void;
 
     id: ClientID;
-    user?: User;
     channels: ClientID[];
-    [x: string]: any;
   }
 
   type SocketCallbackResponse = (data: string | object | boolean | number) => void;
