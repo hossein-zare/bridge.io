@@ -59,7 +59,10 @@ class Server extends Events.EventEmitter {
      */
     events() {
         this.server.on('connection', (socket, request) => {
-            // A new client connected
+            // ready
+            socket.send(0xB);
+
+            // client connected
             this.emit('connection', socket, request);
             
             socket.on('message', (message) => {
@@ -94,9 +97,6 @@ class Server extends Events.EventEmitter {
                 // Delete the client
                 Clients.delete(socket.id);
             });
-
-            // Ready
-            socket.send(0xB);
         });
 
         this.server.on('close', () => {
