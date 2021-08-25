@@ -1,5 +1,4 @@
 import { IncomingMessage } from "http";
-import { Socket as NetSocket } from "net";
 export as namespace BridgeIOLib
 export = BridgeIO;
 
@@ -21,7 +20,7 @@ declare namespace BridgeIO {
     noServer: boolean;
   }
 
-  export type AuthCallback = (socket: NetSocket, request: IncomingMessage) => Promise<boolean> | boolean;
+  export type AuthCallback = (socket: Socket, request: IncomingMessage) => Promise<boolean> | boolean;
 
   export type IOEventName = "connection";
   export type IOCallback = (socket: Socket, request: IncomingMessage) => void;
