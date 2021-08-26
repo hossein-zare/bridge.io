@@ -25,7 +25,7 @@ declare namespace BridgeIO {
   export type IOEventName = "connection";
   export type IOCallback = (socket: Socket, request: IncomingMessage) => void;
 
-  type SocketCallback = (io: BridgeIO, socket: Socket, message: any, response: SocketCallbackResponse) => void;
+  type SocketCallback<DT = any> = (io: BridgeIO, socket: Socket, data: DT, response: SocketCallbackResponse) => void;
   type SocketCallbackDisconnected = (io: BridgeIO, socket: Socket, e: number) => void;
 
   type Socket<T = any> = T & {
