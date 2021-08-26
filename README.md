@@ -32,8 +32,8 @@ io.on('connection', (socket, request) => {
     console.log('A user connected');
 
     // New message
-    socket.on('sum', (io, socket, message, response) => {
-        const { a, b } = message;
+    socket.on('sum', (io, socket, data, response) => {
+        const { a, b } = data;
 
         // Acknowledgement (RPC - Request/Response)
         return response(a + b);
