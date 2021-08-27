@@ -49,7 +49,7 @@ declare namespace BridgeIO {
   }
 
   export interface Client {
-    all(): any[];
+    all(): Map<ClientID, any>;
     get(id: string): any;
     has(id: string): boolean;
   }
